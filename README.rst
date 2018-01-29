@@ -1,8 +1,8 @@
 datefinder - extract dates from text
 ====================================
 
-.. image:: https://img.shields.io/travis/akoumjian/datefinder/master.svg
-    :target: https://travis-ci.org/akoumjian/datefinder
+.. image:: https://img.shields.io/travis/dcronkite/datefinder/master.svg
+    :target: https://travis-ci.org/dcronkite/datefinder
     :alt: travis build status
 
 .. image:: https://img.shields.io/pypi/dm/datefinder.svg
