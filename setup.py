@@ -6,6 +6,7 @@ https://github.com/pypa/sampleproject
 """
 
 # Always prefer setuptools over distutils
+import setuptools
 from setuptools import setup, find_packages
 # To use a consistent encoding
 from codecs import open
@@ -29,11 +30,14 @@ setup(
     long_description=long_description,
 
     # The project's main homepage.
-    url='https://github.com/akoumjian/datefinder',
+    url='https://github.com/dcronkite/datefinder',
 
     # Author details
-    author='Alec Koumjian',
-    author_email='akoumjian@gmail.com',
+    # original creator/owner
+    # author='Alec Koumjian',
+    # author_email='akoumjian@gmail.com',
+    author='David Cronkite',
+    author_email='dcronkite@gmail.com',
 
     # Choose your license
     license='MIT',
@@ -54,14 +58,15 @@ setup(
 
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
-        'Programming Language :: Python :: 2',
+        # 'Programming Language :: Python :: 2',
         # 'Programming Language :: Python :: 2.6',
-        'Programming Language :: Python :: 2.7',
+        # 'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         # 'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
 
         # Topics
         'Natural Language :: English',
@@ -82,7 +87,10 @@ setup(
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['regex==2016.01.10', 'python-dateutil>=2.4.2', 'pytz'],
+    install_requires=[
+        'regex==2016.01.10',
+        'python-dateutil>=2.4.2',
+        'pytz'],
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). You can install these using the following syntax,
@@ -92,6 +100,9 @@ setup(
         'dev': ['pytest>=2.8.5', 'mock', 'pytz>=2015.7'],
         'test': ['pytest>=2.8.5', 'mock', 'pytz>=2015.7'],
     },
+
+    package_dir={'': 'src'},
+    packages=setuptools.find_packages('src'),
 
     # If there are data files included in your packages that need to be
     # installed, specify them here.  If using Python 2.6 or less, then these
