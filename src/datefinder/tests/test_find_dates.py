@@ -1,5 +1,5 @@
 import pytest
-import datefinder
+from datefinder import datefinder
 from datetime import datetime
 import pytz
 import sys

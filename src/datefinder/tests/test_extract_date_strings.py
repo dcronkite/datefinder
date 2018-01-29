@@ -1,5 +1,5 @@
 import pytest
-import datefinder
+from datefinder import datefinder
 import sys, logging
 logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
 logger = logging.getLogger(__name__)
