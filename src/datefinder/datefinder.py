@@ -1,6 +1,8 @@
 import copy
 import logging
 import regex as re
+from datetime import timedelta
+from datetime import datetime as dt
 from dateutil import tz, parser
 
 from datefinder.constants import *
@@ -114,6 +116,7 @@ class DateFinder(object):
     def extract_date_strings(self, text, strict=False):
         """
         Scans text for possible datetime strings and extracts them
+        :param text:
         :param strict: Strict mode will only return dates sourced with day, month, and year
         """
         for match in DATE_REGEX.finditer(text):
@@ -172,17 +175,137 @@ class DateFinder(object):
             yield match_str, indices, captures
 
 
+class TimedeltaParser:
+
+    def __init__(self, default_month=30, default_year=365.25,
+                 ambiguous_month=True):
+        """
+
+        :param default_month: length of a month in days
+        :param default_year: length of a year in days
+        :param ambiguous_month:
+            if unsure what "m" means, should it be month? False = minute
+        """
+        self.default_month = default_month
+        self.default_year = default_year
+        self.ambiguous_month = ambiguous_month
+        self.found_year = False
+        self.found_month = False
+        self.found_hour = False
+        self.found_minute = False
+
+    def find_timedeltas(self, text):
+        """
+        Primary entry point for searching for a series of timedeltas
+            in a string of text.
+        :param text:
+        :return:
+        """
+        for m in UNIT_RX.finditer(text):
+            # for each timedelta, use these heuristics to determine
+            #  whether or not an "m" is month/minute
+            self._reset_timespans()
+            td = timedelta(0)
+            for section in EXTRACT_RX.finditer(m.group()):
+                new_td, is_new = self.get_timedelta(section)
+                if is_new:  # a new timedelta was found
+                    yield td
+                    td = new_td
+                else:
+                    td += new_td
+            yield td
+
+    def _reset_timespans(self):
+        self.found_year = False
+        self.found_month = False
+        self.found_hour = False
+        self.found_minute = False
+
+    def _is_month(self):
+        """
+        Heuristics to determine whether or not "m" means minute or month
+        :return:
+        """
+        if self.found_month:
+            return False
+        elif self.found_minute:
+            return True
+        elif self.found_hour:
+            return False
+        elif self.found_year:
+            return True
+        else:
+            return self.ambiguous_month
+
+    def get_timedelta(self, td_str):
+        """
+        Analyze a string containing only a timedelta.
+        :param td_str: a string containing only timedelta elements
+        :return:
+            timedelta
+            is_new: True if timedelta represents a new instance
+        """
+        # interpretation
+        td = timedelta(0)
+        is_new = False
+        # resolve numeric
+        number = int(td_str.group('number'))
+        if td_str.group('fraction'):
+            fract = td_str.group('fraction')
+            if '/' in fract:
+                n, d = fract.split('/')
+                number += (float(n) / float(d))
+            else:  # decimal
+                number += float(fract)
+        # resolve unit
+        if td_str.group('second'):
+            td = timedelta(seconds=number)
+        elif td_str.group('minute') or (td_str.group('ambig') and not self._is_month()):
+            if self.found_minute:  # if hour already found, start new td
+                self._reset_timespans()
+                is_new = True
+            self.found_minute = True
+            td = timedelta(minutes=number)
+        elif td_str.group('hour'):
+            if self.found_hour:  # if hour already found, start new td
+                self._reset_timespans()
+                is_new = True
+            self.found_hour = True
+            td = timedelta(hours=number)
+        elif td_str.group('day'):
+            td = timedelta(days=number)
+        elif td_str.group('week'):
+            td = timedelta(weeks=number)
+        elif td_str.group('month') or (td_str.group('ambig') and self._is_month()):
+            if self.found_month:  # if hour already found, start new td
+                self._reset_timespans()
+                is_new = True
+            self.found_month = True
+            td = timedelta(days=number * self.default_month)
+        elif td_str.group('year'):
+            if self.found_year:  # if hour already found, start new td
+                self._reset_timespans()
+                is_new = True
+            self.found_year = True
+            td = timedelta(days=number * self.default_year)
+        return td, is_new
+
+
 def find_dates(
         text,
         source=False,
         index=False,
         capture=False,
         strict=False,
-        base_date=None
+        base_date=dt(1900, 1, 1),  # default to start of month
+        index_date=None
 ):
     """
     Extract datetime strings from text
 
+    :param capture:
+    :param index_date:
+        Index date to add any found timestamps to; if None, don't look for timestamps
     :param text:
         A string that contains one or more natural language or literal
         datetime strings
@@ -206,4 +329,7 @@ def find_dates(
         or a tuple with the source text and index, if requested
     """
     date_finder = DateFinder(base_date=base_date)
-    return date_finder.find_dates(text, source=source, index=index, capture=capture, strict=strict)
+    for date in date_finder.find_dates(text, source=source, index=index, capture=capture, strict=strict):
+        yield date
+    for td in TimedeltaParser().find_timedeltas(text):
+        yield td + index_date if index_date else td

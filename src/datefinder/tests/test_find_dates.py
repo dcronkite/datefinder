@@ -1,6 +1,6 @@
 import pytest
 from datefinder import datefinder
-from datetime import datetime
+from datetime import datetime, timedelta
 import pytz
 import sys
 import logging
@@ -48,6 +48,11 @@ logger = logging.getLogger(__name__)
     ("2017-02-03T09:04:08.001Z", datetime(2017, 2, 3, 9, 4, 8, 1000, tzinfo=pytz.utc)),
     ("2017-02-03T09:04:08,00123Z", datetime(2017, 2, 3, 9, 4, 8, 1230, tzinfo=pytz.utc)),
     ("2017-02-03T09:04:08Z", datetime(2017, 2, 3, 9, 4, 8, tzinfo=pytz.utc)),
+    # timedeltas
+    ('3/2012', datetime(2012, 3, 1)),  # default to first day
+    ('3h 4h', [timedelta(hours=3), timedelta(hours=4)]),
+    ('2y3h', [timedelta(days=365.25 * 2, hours=3)]),
+    ('4y3m3h2m', [timedelta(days=365.25 * 4 + 30 * 3, hours=3, minutes=2)]),
 ])
 def test_find_date_strings(input_text, expected_date):
     if isinstance(expected_date,list):
