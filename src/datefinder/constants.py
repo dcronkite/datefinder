@@ -56,8 +56,10 @@ UNDELIMITED_STAMPS_PATTERN = '|'.join([YYYYMMDD_PATTERN, YYYYMM_PATTERN])
 # http://www.rexegg.com/regex-trick-numbers-in-english.html
 
 RELATIVE_PATTERN = 'before|after|next|last|ago'
+RELATIVE_PATTERN_NEG_POST = 'before|ago|back|since'
+RELATIVE_PATTERN_POS_PRE = 'after|next'
+RELATIVE_PATTERN_POS_POST = 'until'
 TIME_SHORTHAND_PATTERN = 'noon|midnight|today|yesterday'
-
 
 # Time pattern is used independently, so specified here.
 TIME_PATTERN = """
@@ -174,6 +176,7 @@ YEAR_PATTERN = 'y|yr|year'
 
 UNIT_PATTERN = '''
 (?:
+(?P<relative_pos_pre>{r3})?
 (?P<number>\d{{1,2}})
 \W*
 (?P<fraction>\.\d{{1,2}}|\d{{1,2}}/\d{{1,2}})?
@@ -190,16 +193,21 @@ UNIT_PATTERN = '''
 )s?
 \W*
 )+
+(?P<relative_pos_post>{r2})?
+(?P<relative_neg_post>{r1})?
 (?:\W|$)
 '''.format(
-    ambig_pattern = AMBIG_PATTERN,
-    second_pattern = SECOND_PATTERN,
-    minute_pattern = MINUTE_PATTERN,
-    hour_pattern = HOUR_PATTERN,
-    day_pattern = DAY_PATTERN,
-    week_pattern = WEEK_PATTERN,
-    month_pattern = MONTH_PATTERN,
-    year_pattern = YEAR_PATTERN
+    ambig_pattern=AMBIG_PATTERN,
+    second_pattern=SECOND_PATTERN,
+    minute_pattern=MINUTE_PATTERN,
+    hour_pattern=HOUR_PATTERN,
+    day_pattern=DAY_PATTERN,
+    week_pattern=WEEK_PATTERN,
+    month_pattern=MONTH_PATTERN,
+    year_pattern=YEAR_PATTERN,
+    r1=RELATIVE_PATTERN_NEG_POST,
+    r2=RELATIVE_PATTERN_POS_POST,
+    r3=RELATIVE_PATTERN_POS_PRE
 )
 UNIT_RX = re.compile(UNIT_PATTERN,
                      re.IGNORECASE | re.MULTILINE | re.UNICODE | re.DOTALL | re.VERBOSE)
@@ -224,15 +232,14 @@ EXTRACT_PATTERN = '''
 )
 (?=\d|\W|$)
 '''.format(
-    ambig_pattern = AMBIG_PATTERN,
-    second_pattern = SECOND_PATTERN,
-    minute_pattern = MINUTE_PATTERN,
-    hour_pattern = HOUR_PATTERN,
-    day_pattern = DAY_PATTERN,
-    week_pattern = WEEK_PATTERN,
-    month_pattern = MONTH_PATTERN,
-    year_pattern = YEAR_PATTERN
+    ambig_pattern=AMBIG_PATTERN,
+    second_pattern=SECOND_PATTERN,
+    minute_pattern=MINUTE_PATTERN,
+    hour_pattern=HOUR_PATTERN,
+    day_pattern=DAY_PATTERN,
+    week_pattern=WEEK_PATTERN,
+    month_pattern=MONTH_PATTERN,
+    year_pattern=YEAR_PATTERN
 )
 EXTRACT_RX = re.compile(EXTRACT_PATTERN,
-                     re.IGNORECASE | re.MULTILINE | re.UNICODE | re.DOTALL | re.VERBOSE)
-
+                        re.IGNORECASE | re.MULTILINE | re.UNICODE | re.DOTALL | re.VERBOSE)

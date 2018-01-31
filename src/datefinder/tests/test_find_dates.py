@@ -53,6 +53,9 @@ logger = logging.getLogger(__name__)
     ('3h 4h', [timedelta(hours=3), timedelta(hours=4)]),
     ('2y3h', [timedelta(days=365.25 * 2, hours=3)]),
     ('4y3m3h2m', [timedelta(days=365.25 * 4 + 30 * 3, hours=3, minutes=2)]),
+    # test adding negative with stuff like 'ago'
+    ('4y3m3h2m ago', [-timedelta(days=365.25 * 4 + 30 * 3, hours=3, minutes=2)]),
+    ('2 months back', [-timedelta(days=60)]),
 ])
 def test_find_date_strings(input_text, expected_date):
     if isinstance(expected_date,list):

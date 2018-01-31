@@ -204,6 +204,9 @@ class TimedeltaParser:
         for m in UNIT_RX.finditer(text):
             # for each timedelta, use these heuristics to determine
             #  whether or not an "m" is month/minute
+            positive = True
+            if m.group('relative_neg_post'):
+                positive = False
             self._reset_timespans()
             td = timedelta(0)
             for section in EXTRACT_RX.finditer(m.group()):
@@ -213,7 +216,7 @@ class TimedeltaParser:
                     td = new_td
                 else:
                     td += new_td
-            yield td
+            yield td if positive else -td
 
     def _reset_timespans(self):
         self.found_year = False
