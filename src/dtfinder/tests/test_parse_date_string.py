@@ -1,5 +1,5 @@
 import pytest
-from datefinder import datefinder
+from dtfinder import datefinder
 from dateutil import tz, parser
 from datetime import datetime
 
@@ -85,7 +85,7 @@ def test_parse_date_string_find_replace(date_string, expected_parse_arg, expecte
 #     :param expected_date:
 #     :return:
 #     """
-#     dt = datefinder.DateFinder()
+#     dt = dtfinder.DateFinder()
 #     with mock.patch.object(tz, 'gettz', wraps=tz.gettz) as mock_gettz:
 #         mock_gettz.return_value = None
 #         actual_datetime = dt.parse_date_string(date_string, expected_captures)
@@ -102,5 +102,5 @@ def test_parse_date_string_find_replace(date_string, expected_parse_arg, expecte
 #     ),
 # ])
 # def test_dateutil_parse_throws_value_error(date_string, expected_exception):
-#     dt = datefinder.DateFinder()
+#     dt = dtfinder.DateFinder()
 #     pytest.raises(expected_exception, dt.parse_date_string, *[date_string], **{'captures':{}})

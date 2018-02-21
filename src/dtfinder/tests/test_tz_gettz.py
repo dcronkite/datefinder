@@ -1,8 +1,8 @@
-from datefinder import datefinder
+from dtfinder import datefinder
 from dateutil import tz
 import sys, logging
 
-from datefinder.constants import NA_TIMEZONES_PATTERN, TIMEZONE_REPLACEMENTS, TIMEZONES_PATTERN
+from dtfinder.constants import NA_TIMEZONES_PATTERN, TIMEZONE_REPLACEMENTS, TIMEZONES_PATTERN
 
 logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
 logger = logging.getLogger(__name__)

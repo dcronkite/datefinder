@@ -48,7 +48,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'datefinder'
+project = u'dtfinder'
 copyright = u'2016, Alec Koumjian, Greg Corradini'
 author = u'Alec Koumjian, Greg Corradini'
 
@@ -224,7 +224,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'datefinder.tex', u'datefinder Documentation',
+    (master_doc, 'dtfinder.tex', u'dtfinder Documentation',
      u'Alec Koumjian, Greg Corradini', 'manual'),
 ]
 
@@ -254,7 +254,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'datefinder', u'datefinder Documentation',
+    (master_doc, 'dtfinder', u'dtfinder Documentation',
      [author], 1)
 ]
 
@@ -268,8 +268,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'datefinder', u'datefinder Documentation',
-     author, 'datefinder', 'One line description of project.',
+    (master_doc, 'dtfinder', u'dtfinder Documentation',
+     author, 'dtfinder', 'One line description of project.',
      'Miscellaneous'),
 ]
 

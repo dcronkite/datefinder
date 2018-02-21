@@ -19,18 +19,18 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='datefinder',
+    name='dtfinder',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
     version='0.7.0',
 
-    description='Extract datetime objects from strings',
+    description='Extract datetime and timedelta objects from strings',
     long_description=long_description,
 
     # The project's main homepage.
-    url='https://github.com/dcronkite/datefinder',
+    url='https://github.com/dcronkite/dtfinder',
 
     # Author details
     # original creator/owner
@@ -81,7 +81,7 @@ setup(
 
     # Alternatively, if you want to distribute just a my_module.py, uncomment
     # this:
-    py_modules=['datefinder'],
+    py_modules=['dtfinder'],
 
     # List run-time dependencies here.  These will be installed by pip when
     # your project is installed. For an analysis of "install_requires" vs pip's

@@ -1,6 +1,6 @@
 import pytest
-from datefinder import datefinder
-from datefinder.constants import *
+from dtfinder import datefinder
+from dtfinder.constants import *
 import copy
 import sys
 import logging

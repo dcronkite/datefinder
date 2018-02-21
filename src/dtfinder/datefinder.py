@@ -5,9 +5,9 @@ from datetime import timedelta
 from datetime import datetime as dt
 from dateutil import tz, parser
 
-from datefinder.constants import *
+from dtfinder.constants import *
 
-logger = logging.getLogger('datefinder')
+logger = logging.getLogger('dtfinder')
 
 
 class DateFinder(object):

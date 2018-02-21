@@ -1,6 +1,6 @@
 import pytest
 from dateutil import tz
-from datefinder import datefinder
+from dtfinder import datefinder
 from datetime import datetime
 import sys
 import logging
