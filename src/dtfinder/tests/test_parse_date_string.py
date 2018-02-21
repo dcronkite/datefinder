@@ -1,5 +1,5 @@
 import pytest
-from dtfinder import datefinder
+from dtfinder import dtfinder
 from dateutil import tz, parser
 from datetime import datetime
 
@@ -43,7 +43,7 @@ logger = logging.getLogger(__name__)
     ),
 ])
 def test_parse_date_string_find_replace(date_string, expected_parse_arg, expected_captures, expected_date):
-    dt = datefinder.DateFinder()
+    dt = dtfinder.DateFinder()
     with mock.patch.object(parser, 'parse', wraps=parser.parse) as spy:
         actual_datetime = dt.parse_date_string(date_string, expected_captures)
         spy.assert_called_with(expected_parse_arg, default=None)

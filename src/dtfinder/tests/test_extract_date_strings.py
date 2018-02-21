@@ -1,5 +1,5 @@
 import pytest
-from dtfinder import datefinder
+from dtfinder import dtfinder
 import sys, logging
 logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
 logger = logging.getLogger(__name__)
@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
     ['the big fight at 2p.m. mountain standard time on ufc.com', 'at 2p.m. mountain standard time on']
 ])
 def test_extract_date_strings(date_string, expected_match_date_string):
-    dt = datefinder.DateFinder()
+    dt = dtfinder.DateFinder()
     for actual_date_string, indexes, captures in dt.extract_date_strings(date_string):
         logger.debug("acutal={}  expected={}".format(actual_date_string, expected_match_date_string))
         assert actual_date_string == expected_match_date_string
@@ -36,7 +36,7 @@ def test_extract_date_strings(date_string, expected_match_date_string):
     :param expected_match_date_string:
     :return:
     """
-    dt = datefinder.DateFinder()
+    dt = dtfinder.DateFinder()
     for actual_date_string, indexes, captures in dt.extract_date_strings(date_string,strict=True):
         logger.debug("acutal={}  expected={}".format(actual_date_string, expected_match_date_string))
         assert actual_date_string == expected_match_date_string

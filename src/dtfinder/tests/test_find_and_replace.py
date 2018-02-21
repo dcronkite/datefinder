@@ -1,5 +1,5 @@
 import pytest
-from dtfinder import datefinder
+from dtfinder import dtfinder
 from dtfinder.constants import *
 import copy
 import sys
@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
      )
 ])
 def test_find_and_replace(date_string, expected_replaced_string, captures, expected_tz_string):
-    dt = datefinder.DateFinder()
+    dt = dtfinder.DateFinder()
     expected_replacements = copy.copy(REPLACEMENTS)
     actual_date_string, actual_tz_string = dt._find_and_replace(date_string, captures)
 

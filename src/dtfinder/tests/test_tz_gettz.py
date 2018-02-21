@@ -1,4 +1,4 @@
-from dtfinder import datefinder
+from dtfinder import dtfinder
 from dateutil import tz
 import sys, logging
 
@@ -17,7 +17,7 @@ def test_tz_gettz_for_all_patterns():
     """
     bad_tz_strings = []
     good_tz_strings = []
-    finder = datefinder.DateFinder()
+    finder = dtfinder.DateFinder()
     test_tz_strings = NA_TIMEZONES_PATTERN.split('|') + TIMEZONES_PATTERN.split('|\s')
     for tz_string in test_tz_strings:
         if tz_string in TIMEZONE_REPLACEMENTS.keys():

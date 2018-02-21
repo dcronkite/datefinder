@@ -1,5 +1,5 @@
 import pytest
-from dtfinder import datefinder
+from dtfinder import dtfinder
 from datetime import datetime, timedelta
 import pytz
 import sys
@@ -59,10 +59,10 @@ logger = logging.getLogger(__name__)
 ])
 def test_find_date_strings(input_text, expected_date):
     if isinstance(expected_date,list):
-        matches = list(datefinder.find_dates(input_text))
+        matches = list(dtfinder.find_dates(input_text))
         assert matches == expected_date
     else:
         return_date = None
-        for return_date in datefinder.find_dates(input_text):
+        for return_date in dtfinder.find_dates(input_text):
             assert return_date == expected_date
         assert return_date is not None, 'Did not find date for test line: "{}"'.format(input_text) # handles dates that were never matched

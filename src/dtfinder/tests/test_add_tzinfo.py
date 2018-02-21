@@ -1,6 +1,6 @@
 import pytest
 from dateutil import tz
-from dtfinder import datefinder
+from dtfinder import dtfinder
 from datetime import datetime
 import sys
 import logging
@@ -17,6 +17,6 @@ logger = logging.getLogger(__name__)
 ])
 def test_add_tzinfo(naive_datetime_obj, timezone_string):
     expected_datetime = naive_datetime_obj.replace(tzinfo=tz.gettz(timezone_string))
-    finder = datefinder.DateFinder()
+    finder = dtfinder.DateFinder()
     actual_datetime = finder._add_tzinfo(naive_datetime_obj, timezone_string)
     assert actual_datetime == expected_datetime
