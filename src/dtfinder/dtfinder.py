@@ -137,6 +137,9 @@ class DateFinder(object):
             # extra_tokens = captures.get('extra_tokens')
             undelimited_stamps = captures.get('undelimited_stamps')
 
+            if len(digits) == 1 and int(digits[0]) < 32:  # only month or day
+                if sum(len(y) for x, y in captures.items() if x not in {'digits', 'delimiters'}) == 0:
+                    continue
             if strict:
                 complete = False
                 # eg 12-05-2015
